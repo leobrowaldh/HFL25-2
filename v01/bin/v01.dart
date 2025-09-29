@@ -3,13 +3,18 @@ import 'dart:io';
 import 'package:v01/calculator.dart';
 
 void main(List<String> arguments) {
-  print('Calculator: ');
+  print(
+    '\n'
+    '--------------------------------\n'
+    'Calculator: ',
+  );
   final calc = Calculator();
   while (true) {
     print(
       '\n'
       'Enter an operation in the following format:\n'
       '(1 + 3, 5 - 2, 5 * 2, 6 / 2)\n'
+      'Consider the spacing!\n'
       'or "exit" to quit:',
     );
     String? userInput = stdin.readLineSync();
@@ -51,7 +56,6 @@ void main(List<String> arguments) {
           print(e.message);
           break;
         }
-        print(calc.divide(a, b));
         break;
       default:
         print('Invalid operator. Please use +, -, *, or /.');
