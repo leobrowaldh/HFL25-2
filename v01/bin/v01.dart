@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:v01/calculator.dart';
 
 void main(List<String> arguments) {
+  print('Triggering gitactions');
   print(
     '\n'
     '--------------------------------\n'
