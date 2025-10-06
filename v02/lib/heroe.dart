@@ -1,5 +1,3 @@
-// Helper functions for hero management
-
 int generateId(List<Map<String, dynamic>> heroes) {
   if (heroes.isEmpty) return 1;
   return (heroes.map((h) => h['id'] as int).reduce((a, b) => a > b ? a : b)) +
@@ -32,7 +30,7 @@ void printHeroes(List<Map<String, dynamic>> heroes) {
   }
 
   print('\x1B[36m=== Hjältar ===\x1B[0m');
-  heroes.forEach((hero) {
+  for (var hero in heroes) {
     print(
       '\x1B[32mID: ${hero['id']} | '
       'Namn: ${hero['name']} | '
@@ -42,13 +40,21 @@ void printHeroes(List<Map<String, dynamic>> heroes) {
       'Kraft: ${hero['power'] ?? '-'} | '
       'Alignment: ${hero['biography']['alignment']}\x1B[0m',
     );
-  });
+  }
 }
 
 void sortHeroesByStrength(List<Map<String, dynamic>> heroes) {
   heroes.sort(
     (a, b) => (b['powerstats']['strength'] as int).compareTo(
       a['powerstats']['strength'] as int,
+    ),
+  );
+}
+
+void sortHeroesByName(List<Map<String, dynamic>> heroes) {
+  heroes.sort(
+    (a, b) => (a['name'] as String).toLowerCase().compareTo(
+      (b['name'] as String).toLowerCase(),
     ),
   );
 }
@@ -72,7 +78,7 @@ List<Map<String, dynamic>> topHeroes(List<Map<String, dynamic>> heroes, int n) {
 }
 
 void printMenu() {
-  print('\n\x1B[36m=== Hjälte Hanteraren ===\x1B[0m');
+  print('\n\x1B[36m=== HeroDex 3000 ===\x1B[0m');
   print('1. Lägg till hjälte');
   print('2. Visa alla hjältar');
   print('3. Sök hjälte');

@@ -2,7 +2,7 @@ import 'package:test/test.dart';
 import 'package:v02/heroe.dart';
 
 void main() {
-  group('Hero Management Tests', () {
+  group('HeroDex 3000 Tests', () {
     late List<Map<String, dynamic>> heroes;
 
     setUp(() {

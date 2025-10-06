@@ -46,7 +46,7 @@ void main(List<String> arguments) {
         break;
 
       case '2':
-        hero.sortHeroesByStrength(heroes);
+        hero.sortHeroesByName(heroes);
         hero.printHeroes(heroes);
         break;
 
