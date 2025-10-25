@@ -128,7 +128,7 @@ Future<void> createHero(HeroDataManager heroManager) async {
   print('\nAnge hjältens namn:');
   String? name = stdin.readLineSync();
   print('Ange styrka (heltal):');
-  int? strength = int.tryParse(stdin.readLineSync() ?? '');
+  int? strength = int.tryParse(stdin.readLineSync() ?? '0');
   print('Ange kön:');
   String? gender = stdin.readLineSync();
   print('Ange ras:');

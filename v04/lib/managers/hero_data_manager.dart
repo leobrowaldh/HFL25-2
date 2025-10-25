@@ -1,11 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
 import '../models/hero_model.dart';
-import 'hero_data_managing.dart';
+import 'i_hero_data_manager.dart';
+import 'package:synchronized/synchronized.dart';
 
-class HeroDataManager implements HeroDataManaging {
+class HeroDataManager implements IHeroDataManager {
   static final HeroDataManager _instance = HeroDataManager._internal();
   final String _dataPath = 'lib/data/heroes';
+  final _lock = Lock(); //Used to avoid race conditions when r/w files
 
   factory HeroDataManager() {
     return _instance;
@@ -25,19 +27,23 @@ class HeroDataManager implements HeroDataManaging {
   String _getHeroFilePath(String id) => '$_dataPath/hero_$id.json';
 
   Future<void> _writeHeroToFile(HeroModel hero) async {
-    final file = File(_getHeroFilePath(hero.localId));
-    await file.writeAsString(json.encode(hero.toJson()));
+    await _lock.synchronized(() async {
+      final file = File(_getHeroFilePath(hero.localId));
+      await file.writeAsString(json.encode(hero.toJson()));
+    });
   }
 
   Future<HeroModel?> _readHeroFromFile(String filePath) async {
-    try {
-      final file = File(filePath);
-      if (!file.existsSync()) return null;
-      final content = await file.readAsString();
-      return HeroModel.fromJson(json.decode(content));
-    } catch (e) {
-      return null;
-    }
+    return await _lock.synchronized(() async {
+      try {
+        final file = File(filePath);
+        if (!file.existsSync()) return null;
+        final content = await file.readAsString();
+        return HeroModel.fromJson(json.decode(content));
+      } catch (e) {
+        return null;
+      }
+    });
   }
 
   @override
@@ -82,10 +88,12 @@ class HeroDataManager implements HeroDataManaging {
 
   @override
   Future<void> deleteHero(int id) async {
-    final file = File(_getHeroFilePath(id.toString()));
-    if (await file.exists()) {
-      await file.delete();
-    }
+    await _lock.synchronized(() async {
+      final file = File(_getHeroFilePath(id.toString()));
+      if (await file.exists()) {
+        await file.delete();
+      }
+    });
   }
 
   @override

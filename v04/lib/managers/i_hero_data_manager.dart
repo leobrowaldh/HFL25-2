@@ -1,6 +1,6 @@
 import '../models/hero_model.dart';
 
-abstract class HeroDataManaging {
+abstract class IHeroDataManager {
   Future<void> saveHero(HeroModel hero);
   Future<List<HeroModel>> getHeroList();
   Future<List<HeroModel>> searchHero(String query);
