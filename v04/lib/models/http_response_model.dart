@@ -1,18 +1,18 @@
 import 'hero_model.dart';
 
-class HttpResponseModel {
+class HttpResponseSearchModel {
   final String response;
   final String resultsFor;
   final List<HeroModel> results;
 
-  HttpResponseModel({
+  HttpResponseSearchModel({
     required this.response,
     required this.resultsFor,
     required this.results,
   });
 
-  factory HttpResponseModel.fromJson(Map<String, dynamic> json) {
-    return HttpResponseModel(
+  factory HttpResponseSearchModel.fromJson(Map<String, dynamic> json) {
+    return HttpResponseSearchModel(
       response: json['response'] ?? '',
       resultsFor: json['results-for'] ?? '',
       results: (json['results'] as List<dynamic>)

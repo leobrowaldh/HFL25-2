@@ -25,7 +25,7 @@ class HeroDataManager implements HeroDataManaging {
   String _getHeroFilePath(String id) => '$_dataPath/hero_$id.json';
 
   Future<void> _writeHeroToFile(HeroModel hero) async {
-    final file = File(_getHeroFilePath(hero.id));
+    final file = File(_getHeroFilePath(hero.localId));
     await file.writeAsString(json.encode(hero.toJson()));
   }
 
