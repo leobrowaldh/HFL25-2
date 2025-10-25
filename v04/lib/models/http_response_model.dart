@@ -15,9 +15,11 @@ class HttpResponseSearchModel {
     return HttpResponseSearchModel(
       response: json['response'] ?? '',
       resultsFor: json['results-for'] ?? '',
-      results: (json['results'] as List<dynamic>)
-          .map((e) => HeroModel.fromJson(e))
-          .toList(),
+      results: (json['results'] != null && json['results'] is List)
+          ? (json['results'] as List<dynamic>)
+                .map((e) => HeroModel.fromJson(e))
+                .toList()
+          : [],
     );
   }
 

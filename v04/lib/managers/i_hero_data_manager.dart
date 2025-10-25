@@ -5,7 +5,7 @@ abstract class IHeroDataManager {
   Future<List<HeroModel>> getHeroList();
   Future<List<HeroModel>> searchHero(String query);
   Future<void> parseData(String jsonData);
-  Future<void> deleteHero(int id);
-  Future<HeroModel?> getHeroById(int id);
+  Future<void> deleteHero(String id);
+  Future<HeroModel?> getHeroById(String id);
   Future<void> updateHero(HeroModel hero);
 }

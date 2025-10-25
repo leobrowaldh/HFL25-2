@@ -87,9 +87,9 @@ class HeroDataManager implements IHeroDataManager {
   }
 
   @override
-  Future<void> deleteHero(int id) async {
+  Future<void> deleteHero(String id) async {
     await _lock.synchronized(() async {
-      final file = File(_getHeroFilePath(id.toString()));
+      final file = File(_getHeroFilePath(id));
       if (await file.exists()) {
         await file.delete();
       }
@@ -97,8 +97,8 @@ class HeroDataManager implements IHeroDataManager {
   }
 
   @override
-  Future<HeroModel?> getHeroById(int id) async {
-    return await _readHeroFromFile(_getHeroFilePath(id.toString()));
+  Future<HeroModel?> getHeroById(String id) async {
+    return await _readHeroFromFile(_getHeroFilePath(id));
   }
 
   @override

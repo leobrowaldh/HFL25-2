@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:http/retry.dart';
@@ -28,13 +29,24 @@ class HeroHttpClient implements IHeroHttpClient {
   Future<HttpResponseSearchModel> searchHeroes(String query) async {
     final url = _buildUrl(query);
 
-    final response = await _client.get(url);
+    try {
+      final response = await _client.get(url).timeout(Duration(seconds: 5));
 
-    if (response.statusCode == 200) {
-      final json = jsonDecode(response.body);
-      return HttpResponseSearchModel.fromJson(json);
-    } else {
-      throw Exception('Failed to fetch heroes: ${response.statusCode}');
+      if (response.statusCode == 200) {
+        if (response.headers['content-type']?.contains('application/json') ??
+            false) {
+          final json = jsonDecode(response.body);
+          return HttpResponseSearchModel.fromJson(json);
+        } else {
+          throw Exception('Unexpected response format');
+        }
+      } else {
+        throw Exception('Failed to fetch heroes: ${response.statusCode}');
+      }
+    } on TimeoutException {
+      throw Exception('Request timed out');
+    } on http.ClientException catch (e) {
+      throw Exception('Network error: ${e.message}');
     }
   }
 
