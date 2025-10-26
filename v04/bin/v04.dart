@@ -145,9 +145,31 @@ Future<void> showLocalHeroes(HeroDataManager heroManager) async {
   if (heroes.isEmpty) {
     print('\x1B[33mInga hjältar tillagda än.\x1B[0m');
   } else {
-    final sortedHeroes = List<HeroModel>.from(heroes)
-      ..sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
-    printHeroes(sortedHeroes);
+    print('\x1B[33mVälj ett alternativ (1-3):\x1B[0m');
+    print('\n1. Visa alla hjältar');
+    print('2. Visa goda hjältar');
+    print('3. visa onda hjältar');
+    String? filterChoice = stdin.readLineSync();
+
+    List<HeroModel> filteredHeroes = List<HeroModel>.from(heroes);
+
+    switch (filterChoice) {
+      case '2':
+        filteredHeroes = filteredHeroes
+            .where((hero) => (hero.alignment ?? '').toLowerCase() == 'good')
+            .toList();
+        break;
+      case '3':
+        filteredHeroes = filteredHeroes
+            .where((hero) => (hero.alignment ?? '').toLowerCase() == 'evil')
+            .toList();
+        break;
+    }
+
+    filteredHeroes.sort(
+      (a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()),
+    );
+    printHeroes(filteredHeroes);
   }
 }
 
@@ -196,7 +218,7 @@ Future<void> createHero(HeroDataManager heroManager) async {
 void printMenu() {
   print('\n\x1B[36m=== HeroDex 3000 ===\x1B[0m');
   print('1. Skapa egen hjälte');
-  print('2. Visa alla sparade hjältar');
+  print('2. Visa sparade hjältar');
   print('3. Sök sparad hjälte');
   print('4. Hämta en hjälte från HjälteLand');
   print('5. Visa topplista');
