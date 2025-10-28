@@ -1,0 +1,15 @@
+{
+  "id": "1",
+  "name": "Superman",
+  "powerstats": {
+    "strength": 100
+  },
+  "appearance": {
+    "gender": "Male",
+    "race": "Kryptonian"
+  },
+  "biography": {
+    "alignment": "good"
+  },
+  "power": "Flight"
+}
